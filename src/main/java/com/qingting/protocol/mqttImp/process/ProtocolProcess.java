@@ -303,6 +303,7 @@ public class ProtocolProcess {
 		final String topic = publishMessage.getVariableHeader().getTopic();
 	    final QoS qos = publishMessage.getFixedHeader().getQos();
 	    final ByteBuf message = publishMessage.getPayload();
+	    System.out.println(message);
 	    final int packgeID = publishMessage.getVariableHeader().getPackageID();
 	    final boolean retain = publishMessage.getFixedHeader().isRetain();
 	    
@@ -362,7 +363,7 @@ public class ProtocolProcess {
 		if (qos == QoS.AT_LEAST_ONCE) {
 			boolean retain = false;
 			boolean dup = false;
-		
+			
 			sendPublishMessage(topic, qos, message, retain, dup);
 			sendPubAck(clientID, recPackgeID);
 		}

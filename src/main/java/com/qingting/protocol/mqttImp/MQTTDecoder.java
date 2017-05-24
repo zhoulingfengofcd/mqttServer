@@ -112,6 +112,9 @@ public class MQTTDecoder extends ReplayingDecoder<DecoderState> {
 		for(int i=0;i<bytes.length;i++){
 			System.out.println("byteBuf:"+bytes[i]);
 		}*/
+		System.out.println("缓存区信息："+byteBuf.readableBytes());
+		System.out.println("索引位置："+byteBuf.markReaderIndex()+" 缓冲计数："+byteBuf.nioBufferCount());
+		//byteBuf.resetReaderIndex();
 		//解码头部第一个字节
 		byte headerData = byteBuf.readByte();
 		System.out.println("headerData:"+headerData);
@@ -132,7 +135,7 @@ public class MQTTDecoder extends ReplayingDecoder<DecoderState> {
 	        multiplier *= 128;
 	        loop++;
 	    }while ((digit & 0x80) != 0 && loop < 4);
-	    
+	    //byteBuf.resetReaderIndex();//置位索引
 	    if (loop == 4 && (digit & 0x80) != 0) {
 			throw new DecoderException("保留字段长度超过4个字节，与协议不符，消息类型:" + type);
 		}
